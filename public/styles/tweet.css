@@ -68,9 +68,12 @@ article.tweet {
 
 /* hover */
 
-#tweet-container:hover .tweet .interactOptions {
+.tweet-container:hover .tweet .interactOptions {
     opacity: 1;
 }
-#tweet-container:hover {
+.tweet-container:hover {
     border-color: black;
+}
+.tweet-container:hover > header.tweet {
+    background-color: lightslategray;
 }
