@@ -7,6 +7,7 @@
     margin-left: 2em;
     padding: 5px;
     border-radius: 10px;
+    z-index: 100;
 }
 
 .new-tweet h2 {
