@@ -23,7 +23,7 @@ header.tweet {
     padding: 5px;
     background-color:#eee;
     width: 100%;
-    font-size: 200%;
+    font-size: 170%;
 }
 header.tweet div.user{
     position: relative;
@@ -31,7 +31,9 @@ header.tweet div.user{
     top: -25px;
 }
 header.tweet div.handle {
-    display: inline;
+    position: absolute;
+    top: 5px;
+    right: 5px;
     float: right;
     font-size: 50%;
 }

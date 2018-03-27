@@ -9,8 +9,20 @@ $(document).ready(function () {
 
     loadTweets(renderTweets);
     $("form").on('submit', ajaxAddTweet)
-    
+    $("#compose").on('click', slideNewTweet)
+
 });
+
+let shown = true;
+function slideNewTweet () {
+    $(".new-tweet").slideToggle("slow")
+    if (shown === true){
+        shown = false;
+    } else {
+        shown = true;
+        $('#compose-input-field').focus();
+    }
+}
 
 function loadTweets(cb) {
     $.ajax({
@@ -42,6 +54,12 @@ function ajaxAddTweet() {
     }
 };
 
+function escape(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+}
+
 function renderTweets(tweetsArr) {
     tweetsArr.forEach(function(element) {
         createTweetElement(element);
@@ -53,7 +71,7 @@ function loadNewTweet(tweetsArr) {
 
 function createTweetElement(tweetInfo) {
     let timeDiff = timeCalculator(tweetInfo.created_at);
-    let output = $(`<section class="tweet-container"><header class="tweet"><img class="avatar-pic" src=${tweetInfo.user.avatars.small}><div class="user">${tweetInfo.user.name}</div><div class="handle">${tweetInfo.user.handle}</div></header><article class="tweet">${tweetInfo.content.text}</article><footer class="tweet">${timeDiff}<img class="interactOptions" src="/images/interactOptions.png"></footer></section>`)
+    let output = $(`<section class="tweet-container"><header class="tweet"><img class="avatar-pic" src=${tweetInfo.user.avatars.small}><div class="user">${tweetInfo.user.name}</div><div class="handle">${tweetInfo.user.handle}</div></header><article class="tweet">${escape(tweetInfo.content.text)}</article><footer class="tweet">${timeDiff}<img class="interactOptions" src="/images/interactOptions.png"></footer></section>`)
 
     $('#feed-container').prepend(output);
 };
@@ -118,50 +136,3 @@ function timeCalculator(created) {
     }
 };
 
-
-// const data = [
-//     {
-//       "user": {
-//         "name": "Newton",
-//         "avatars": {
-//           "small":   "https://vanillicon.com/788e533873e80d2002fa14e1412b4188_50.png",
-//           "regular": "https://vanillicon.com/788e533873e80d2002fa14e1412b4188.png",
-//           "large":   "https://vanillicon.com/788e533873e80d2002fa14e1412b4188_200.png"
-//         },
-//         "handle": "@SirIsaac"
-//       },
-//       "content": {
-//         "text": "If I have seen further it is by standing on the shoulders of giants"
-//       },
-//       "created_at": 1461116232227
-//     },
-//     {
-//       "user": {
-//         "name": "Descartes",
-//         "avatars": {
-//           "small":   "https://vanillicon.com/7b89b0d8280b93e2ba68841436c0bebc_50.png",
-//           "regular": "https://vanillicon.com/7b89b0d8280b93e2ba68841436c0bebc.png",
-//           "large":   "https://vanillicon.com/7b89b0d8280b93e2ba68841436c0bebc_200.png"
-//         },
-//         "handle": "@rd" },
-//       "content": {
-//         "text": "Je pense , donc je suis"
-//       },
-//       "created_at": 1461113959088
-//     },
-//     {
-//       "user": {
-//         "name": "Johann von Goethe",
-//         "avatars": {
-//           "small":   "https://vanillicon.com/d55cf8e18b47d4baaf60c006a0de39e1_50.png",
-//           "regular": "https://vanillicon.com/d55cf8e18b47d4baaf60c006a0de39e1.png",
-//           "large":   "https://vanillicon.com/d55cf8e18b47d4baaf60c006a0de39e1_200.png"
-//         },
-//         "handle": "@johann49"
-//       },
-//       "content": {
-//         "text": "Es ist nichts schrecklicher als eine tätige Unwissenheit."
-//       },
-//       "created_at": 1461113796368
-//     }
-//   ];

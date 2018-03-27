@@ -23,3 +23,9 @@
 #nav-bar .logo {
     float: left;
 }
+
+#nav-bar #compose {
+    float: right;
+    position: relative;
+    top: 20px;
+}
