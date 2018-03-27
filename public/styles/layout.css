@@ -27,8 +27,6 @@ body {
 
  main {
    width: 450px;
-   height: 800px;
    margin: auto;
-   top: 140px;
-   background-color: white;
+   background-color: #eee; 
  }
