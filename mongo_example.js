@@ -1,6 +1,6 @@
 "use strict";
 
-const {MongoClient} = require("mongodb");
+const MongoClient = require("mongodb").MongoClient;
 const MONGODB_URI = "mongodb://localhost:27017/tweeter";
 
 MongoClient.connect(MONGODB_URI, (err, db) => {
@@ -19,6 +19,7 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
       if (err) {
         return callback(err);
       }
+      console.log(tweets);
       callback(null, tweets);
     });
   }
@@ -30,11 +31,12 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
   getTweets((err, tweets) => {
     if (err) throw err;
 
-    console.log("Logging each tweet:");
+    // console.log("Logging each tweet:");
     for (let tweet of tweets) {
-      console.log(tweet);
+      //console.log(tweet);
     }
 
     db.close();
   });
+
 });
