@@ -89,7 +89,15 @@ function loadNewTweet(tweetsArr) {
 // Given the info for 1 tweet, produces an element and prepends it to the specified area (the feed in this case)
 function createTweetElement(tweetInfo) {
     let timeDiff = timeCalculator(tweetInfo.created_at);
-    let output = $(`<section class="tweet-container"><header class="tweet"><img class="avatar-pic" src=${tweetInfo.user.avatars.small}><div class="user">${tweetInfo.user.name}</div><div class="handle">${tweetInfo.user.handle}</div></header><article class="tweet">${escape(tweetInfo.content.text)}</article><footer class="tweet">${timeDiff}<img class="interactOptions" src="/images/interactOptions.png"></footer></section>`)
+    let output = $(`
+    <section class="tweet-container">
+        <header class="tweet"> 
+            <img class="avatar-pic" src=${tweetInfo.user.avatars.small}>  
+            <div class="user">${tweetInfo.user.name}</div><div class="handle">${tweetInfo.user.handle}</div></header>
+        <article class="tweet">${escape(tweetInfo.content.text)}</article>
+        <footer class="tweet">${timeDiff}
+            <form method="PUT" action="/tweets/like">
+            <input class="interactOptions" type="image" src="/images/interactOptions.png"></form></footer></section>`)
 
     $('#feed-container').prepend(output);
 };
