@@ -1,0 +1,83 @@
+#feed-container {
+    position:relative;
+    top: 0;
+}
+
+.tweet-container {
+    position: relative;
+    border-style: solid;
+    border-width: thin;
+    border-color: lightgray;
+    background-color: white;
+    margin-bottom: 1em;
+    margin-right: 2em;
+    margin-left: 2em;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+header.tweet {
+    position: relative;
+    padding: 5px;
+    background-color:#eee;
+    width: 100%;
+    font-size: 170%;
+    
+    div.user{
+        position: relative;
+        display: inline;
+        top: -25px;
+    }
+    div.handle {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        float: right;
+        font-size: 50%;
+    }
+}
+footer.tweet {
+    position: relative;
+    padding: 5px;
+    bottom: -20px;
+    right: 0;
+    font-size: 80%;
+}
+
+article.tweet {
+    position:relative;
+    padding: 20px;
+}
+.tweet { 
+    .interactOptions {
+        position: relative;
+        bottom: 15px;
+        float: right;
+        opacity: 0;
+        width: 90px; 
+        height: 40px;
+    }
+    .avatar-pic {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        padding: 2px;
+        bottom: 0px;
+        border-radius: 5px;
+    }
+}
+
+/* hover */
+
+.tweet-container:hover {
+    border-color: black;
+
+    .tweet .interactOptions {
+        opacity: 1;
+    }
+
+        
+    > header.tweet {
+        background-color: lightslategray;
+    }
+}

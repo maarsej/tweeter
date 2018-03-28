@@ -1,0 +1,17 @@
+Compile Sass to CSS.
+
+Usage: sass <input> [output]
+
+    --[no-]stdin          Read the stylesheet from stdin.
+    --[no-]indented       Use the indented syntax for input from stdin.
+-I, --load-path=<PATH>    A path to use when resolving imports.
+                          May be passed multiple times.
+
+-s, --style=<NAME>        Output style.
+                          [expanded (default), compressed]
+
+-c, --[no-]color          Whether to emit terminal colors.
+-q, --[no-]quiet          Don't print warnings.
+    --[no-]trace          Print full Dart stack traces for exceptions.
+-h, --help                Print this usage information.
+    --version             Print the version of Dart Sass.

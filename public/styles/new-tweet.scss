@@ -1,0 +1,38 @@
+.new-tweet {
+
+    position: relative;
+    background-color: #d3d3d3;
+    margin-right: 2em;
+    margin-left: 2em;
+    margin-bottom: 2em;
+    padding: 5px;
+    border-radius: 10px;
+    z-index: 100;
+
+    h2 {
+        border-bottom: 3px;
+    }
+
+    hr {
+        margin-top: -20px;
+        border-color: black;
+    }
+
+    form {
+        padding: 5px;
+    }
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+}
+
+.counter {
+    float: right;
+}
+
+.invalidLength {
+    color: red;
+}
+

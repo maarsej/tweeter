@@ -1,78 +1,71 @@
 #feed-container {
-    position:relative;
-    top: 0;
-}
+  position: relative;
+  top: 0; }
 
 .tweet-container {
-    position: relative;
-    border-style: solid;
-    border-width: thin;
-    border-color: lightgray;
-    top: 150px;
-    background-color: white;
-    margin-bottom: 1em;
-    margin-right: 2em;
-    margin-left: 2em;
-    border-radius: 10px;
-    overflow: hidden;
-}
+  position: relative;
+  border-style: solid;
+  border-width: thin;
+  border-color: lightgray;
+  background-color: white;
+  margin-bottom: 1em;
+  margin-right: 2em;
+  margin-left: 2em;
+  border-radius: 10px;
+  overflow: hidden; }
 
 header.tweet {
-    position: relative;
-    padding: 5px;
-    background-color:#eee;
-    width: 100%;
-    font-size: 170%;
-}
-header.tweet div.user{
-    position: relative;
-    display: inline;
-    top: -25px;
-}
+  position: relative;
+  padding: 5px;
+  background-color: #eee;
+  width: 100%;
+  font-size: 170%; }
+
+header.tweet div.user {
+  position: relative;
+  display: inline;
+  top: -25px; }
+
 header.tweet div.handle {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    float: right;
-    font-size: 50%;
-}
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  float: right;
+  font-size: 50%; }
+
 footer.tweet {
-    position: relative;
-    padding: 5px;
-    bottom: -20px;
-    right: 0;
-    font-size: 80%;
-}
+  position: relative;
+  padding: 5px;
+  bottom: -20px;
+  right: 0;
+  font-size: 80%; }
 
 article.tweet {
-    position:relative;
-    padding: 20px;
-}
+  position: relative;
+  padding: 20px; }
+
 .tweet .interactOptions {
-    position: relative;
-    bottom: 15px;
-    float: right;
-    opacity: 0;
-    width: 90px; 
-    height: 40px;
-}
+  position: relative;
+  bottom: 15px;
+  float: right;
+  opacity: 0;
+  width: 90px;
+  height: 40px; }
+
 .tweet .avatar-pic {
-    position: relative;
-    width: 50px;
-    height: 50px;
-    padding: 2px;
-    bottom: 0px;
-    border-radius: 5px;
-}
+  position: relative;
+  width: 50px;
+  height: 50px;
+  padding: 2px;
+  bottom: 0px;
+  border-radius: 5px; }
 
 /* hover */
+.tweet-container:hover {
+  border-color: black; }
 
 .tweet-container:hover .tweet .interactOptions {
-    opacity: 1;
-}
-.tweet-container:hover {
-    border-color: black;
-}
+  opacity: 1; }
+
 .tweet-container:hover > header.tweet {
-    background-color: lightslategray;
-}
+  background-color: lightslategray; }
