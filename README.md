@@ -1,6 +1,6 @@
 # Tweeter Project by Jacob Maarse
 
-Tweeter is a simple, single-page Twitter clone. This project was built on a provided express server which managed the routes and the data transfer between the client and server. The initial html page was manipulated with additional code as well as CSS in order to provide a more aestethic and functional environment. This styling, in addition to the use of jquery, provide a superior ability for the user to interact with the web app. Continuing with this trend, ajax was added for the seamless addition of tweets to the feed. Finally, in order to allow tweets to persist through a server restart, a database (mongoDB) was added, with some slight modifications made to code that handled the data such that the user experience remained unaltered.
+Tweeter is a simple, single-page Twitter clone. This project was built on a provided express server which managed the routes and the data transfer between the client and server. The initial html page was manipulated with additional code as well as CSS in order to provide a more aesthetic and functional environment. This styling, in addition to the use of jquery, provide a better environment for user interaction. Continuing with this trend, ajax was added for the seamless addition of new tweets to the feed. Finally, in order to allow tweets to persist through a server restart, a database (mongoDB) was added, with some slight modifications made to code that handled the data such that the user experience remained unaltered.
 
 ### Prerequisites
 
@@ -24,7 +24,7 @@ node index.js
 ```
 ### Final Product
 
-A brief overview of the layout of some of the pages:
+A brief overview of the layout of the page:
 #### The page
 !["Screenshot of the feed"](https://github.com/maarsej/tweeter/blob/master/docs/Screen%20Shot%202018-03-28%20at%2012.58.22%20PM.png?raw=true)
 

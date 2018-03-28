@@ -48,7 +48,7 @@ function loadTweets(cb) {
 }
 
 // Triggered when the form is submitted, looks at the new data coming through and loads in the new tweet.
-function AddTweet() {
+function addTweet() {
     event.preventDefault();
     if ($(this).find('textarea').val() === "") {
         alert("Cannot send empty tweet");
