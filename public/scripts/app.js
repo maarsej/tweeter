@@ -1,18 +1,29 @@
-/*
- * Client-side JS logic goes here
- * jQuery is already loaded
- * Reminder: Use (and do all your DOM work in) jQuery's document ready function
+ /*
+ Created by: Jacob Maarse
+ Date Created: March 26th, 2018
+ Last Editted: March 28th, 2018
+ Purpose: tweeter app project for lighthouse labs
+ Function: -Built on premade server that handles requests
+           -CSS and HTML styling to provide an aesthetic and functional web app
+           -The aformentioned styling also provides a sense of interactivity through highlighting the hovered tweet or being able to slide the new tweet section in and out of view.
+           -Live update of tweets using ajax
+           -Tweets that persist through server restarts through the use of mongoDB
  */
+
 let data= [];
 
+// Allow document to load DOM before loading the persisted tweets and adding listeners
 $(document).ready(function () {
 
     loadTweets(renderTweets);
-    $("form").on('submit', ajaxAddTweet)
+    $("form").on('submit', addTweet)
     $("#compose").on('click', slideNewTweet)
 
 });
 
+// Functions 
+
+//Toggle the state of the window for new tweet creation
 let shown = true;
 function slideNewTweet () {
     $(".new-tweet").slideToggle("slow")
@@ -24,6 +35,7 @@ function slideNewTweet () {
     }
 }
 
+// Request the data and given that data perform callback on it, in this case rendering the tweets
 function loadTweets(cb) {
     $.ajax({
         url:'/tweets/',
@@ -35,7 +47,8 @@ function loadTweets(cb) {
    
 }
 
-function ajaxAddTweet() {
+// Triggered when the form is submitted, looks at the new data coming through and loads in the new tweet.
+function AddTweet() {
     event.preventDefault();
     if ($(this).find('textarea').val() === "") {
         alert("Cannot send empty tweet");
@@ -54,21 +67,26 @@ function ajaxAddTweet() {
     }
 };
 
+// Protects from potential attacks where users input html tags
 function escape(str) {
     var div = document.createElement('div');
     div.appendChild(document.createTextNode(str));
     return div.innerHTML;
 }
 
+// Given an array of tweets 'render' them all with the utilization of the createTweetElement function
 function renderTweets(tweetsArr) {
     tweetsArr.forEach(function(element) {
         createTweetElement(element);
     });
 };
+
+// Load the last tweet added to the database (the newest)
 function loadNewTweet(tweetsArr) {
     createTweetElement(tweetsArr[tweetsArr.length-1]);
 }
 
+// Given the info for 1 tweet, produces an element and prepends it to the specified area (the feed in this case)
 function createTweetElement(tweetInfo) {
     let timeDiff = timeCalculator(tweetInfo.created_at);
     let output = $(`<section class="tweet-container"><header class="tweet"><img class="avatar-pic" src=${tweetInfo.user.avatars.small}><div class="user">${tweetInfo.user.name}</div><div class="handle">${tweetInfo.user.handle}</div></header><article class="tweet">${escape(tweetInfo.content.text)}</article><footer class="tweet">${timeDiff}<img class="interactOptions" src="/images/interactOptions.png"></footer></section>`)
@@ -76,8 +94,7 @@ function createTweetElement(tweetInfo) {
     $('#feed-container').prepend(output);
 };
 
-
-
+// Determines, based on the date created how many minutes/hours/days/weeks/months/years have passed and selects the appropriate unit to display
 function timeCalculator(created) {
     today = new Date();
     now = today.getTime();
