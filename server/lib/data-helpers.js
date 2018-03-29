@@ -24,7 +24,7 @@ module.exports = function makeDataHelpers(db) {
       })
     },
     toggleLike: function (id, callback) {
-      db.collection('tweets').findOne({_id: ObjectId(id)}, (err, tweet) => {
+      db.collection('tweets').findOne({ _id: ObjectId(id) }, (err, tweet) => {
         if (err) {
           return callback(err);
         } else {
@@ -49,34 +49,44 @@ module.exports = function makeDataHelpers(db) {
         }
       });
     },
-  register: function (req, callback) {
-    db.collection('users').find({user: req.body.user}, function (err,results){
-      // build new object
-      let userToInsert = {'user':req.body.user, 'pass':req.body.pass, 'liked':[]};
-      if (err) {
-        return callback(err);
-      } else if (!results.length) {
-        db.collection('users').insertOne(userToInsert, function(err){
-          if (err) return;
-          let userId = objectToInsert._id;
-          return(null, objectID);
-        })
-      } else {
-        return (null, null)
-      }
-    })
-  },
-  checkLogin: function () {
-    db.collection('users').findOne({user: req.body.user}, function (err, user){
-      if (err) {
-        return callback(err);
-      } else if (!results) {
-          return(null, null);
-      } else {
-        let userID = results._id
-        return (null, userID);
-      }
-    })
-  }
-};
+    register: function (req, callback) {
+      db.collection('users').find({ user: req.body.user }).toArray((err, results) => {
+        // build new object
+        let userToInsert = { 'user': req.body.user, 'pass': req.body.pass, 'liked': [] };
+        console.log(results);
+        console.log(results.length);
+        if (err) {
+          return callback(err);
+        } else if (!results.length) {
+          db.collection('users').insert(userToInsert, function (err) {
+            if (err) return;
+            let userID = userToInsert._id;
+            return callback(null, userID);
+          })
+        } else {
+          console.log('returned error');
+          return callback(null, false)
+
+        }
+      })
+    },
+    //check if login is valid user
+    checkLogin: function (req, callback) {
+      db.collection('users').findOne({ user: req.body.user }, function (err, user) {
+        console.log(user);
+        if (err) {
+          return callback(err);
+        } else if (!user) {
+          return callback(null, false);
+        } else if (user.pass === req.body.pass){
+          let userID = user._id
+          console.log('returned user id: ', userID);
+          return callback(null, userID);
+        } else {
+          return callback(null, false);
+        }
+      })
+    }
+  };
+}
 

@@ -26,41 +26,39 @@ $(document).ready(function () {
 
 // Functions 
 function attemptLogin(event) {
-    event.preventDefault();
-    // console.log('in attempt login')
+    // event.preventDefault();
+    // console.log($(this).parent('#signin-form').serialize())
     // console.log('this.serialize: ',$(this).serialize());
     $.ajax({
         url: '/login/',
         method: 'POST',
         data: $(this).parent('#signin-form').serialize(),
-        success: function (incomingData) {
-            // alert if fail
-            // reload if good and set cookie
-            // pageReload();
-            return;
-        }
+        // success: function (incomingData) {
+        //     // alert if fail
+        //     if (incomingData === null) {
+        //         alert('invalid login information')
+        //     } else {
+        //     pageReload()
+        //     return;
+        //     }
+        // }
     })
 }
 function attemptRegister(event) {
-    event.preventDefault();
+    // event.preventDefault();
+    // console.log($(this).parent('#signin-form').serialize())
     $.ajax({
         url: `/register/`,
         method: 'POST',
         data: $(this).parent('#signin-form').serialize(),
-        success: function (incomingData) {
-            // alert if fail
-
-            // reload if good and set cookie
-            //pageReload();
-            return;
-        }
-    })
-}
-
-function pageReload() {
-    $.ajax({
-        url: `/`,
-        method: 'GET',
+        // success: function (incomingData) {
+        //     if (incomingData === null) {
+        //         alert('invalid login information')
+        //     } else {
+        //     pageReload();
+        //     return;
+        //     }
+        // }
     })
 }
 

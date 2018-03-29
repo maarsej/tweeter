@@ -13,6 +13,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
+app.use(cookieSession({
+  name: 'session',
+  keys: ['secret'],
+}));
+
 var tweetDB = [];
 
 MongoClient.connect(MONGODB_URI, (err, db) => {
@@ -29,18 +34,18 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
     const tweetsRoutes = require("./routes/tweets")(DataHelpers);
 
     app.get("/", function(req, res) {
-      let templateVars = {userID: undefined };//req.session["userID"]};
+      let templateVars = {userID: req.session["userID"]};
       res.render("index", templateVars);
       res.status(200)
     });
 
     app.post("/login", function(req, res) {
-      // console.log("user + pass: " + req.body.user + " " + req.body.pass); !works
       DataHelpers.checkLogin(req, (err, userID) => {
         if (err) {
           res.status(500).json({ error: err.message });
         } else {
-          res.status(200).send([userID, check]);
+          req.session['userID'] = userID;
+          res.redirect("/");
         }
       });
     });
@@ -50,15 +55,15 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
         if (err) {
           res.status(500).json({ error: err.message });
         } else {
-          res.status(200).send([userID, check]);
+          req.session['userID'] = userID;
+          res.redirect("/");
         }
       });
     });
 
     app.post("/logout", function(req, res) {
-      let templateVars = {userID: req.session["userID"]};
       req.session = null;
-      res.status(200);
+      res.redirect("/");
     });
 
     app.use("/tweets", tweetsRoutes);
