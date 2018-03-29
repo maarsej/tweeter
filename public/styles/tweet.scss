@@ -65,6 +65,18 @@ article.tweet {
         bottom: 0px;
         border-radius: 5px;
     }
+    .likeState {
+        color: black;
+        float: right;
+    }
+    .likeState.liked {
+        color: rgb(20, 182, 33);
+        font-weight: bold;
+    }
+    .liveLikes {
+        // float: right;
+        display: inline
+    }
 }
 
 /* hover */

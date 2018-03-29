@@ -60,6 +60,17 @@ article.tweet {
   bottom: 0px;
   border-radius: 5px; }
 
+.tweet .likeState {
+  color: black;
+  float: right; }
+
+.tweet .likeState.liked {
+  color: #14b621;
+  font-weight: bold; }
+
+.tweet .liveLikes {
+  display: inline; }
+
 /* hover */
 .tweet-container:hover {
   border-color: black; }

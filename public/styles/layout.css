@@ -15,7 +15,7 @@ html {
 body {
   margin: 0;
   color: #244751;
-  background-color: white;
+  background-color: #eee;
   font-family: 'Roboto Condensed', sans-serif; }
 
 /*
@@ -27,4 +27,4 @@ main {
   height: 100%;
   margin: auto;
   padding-top: 7em;
-  background-color: #eee; }
+  background-color: white; }

@@ -41,23 +41,17 @@ module.exports = function(DataHelpers) {
     });
   });
 
-  tweetsRoutes.put('/like', function (req, res){
-    // if like doesnt exist in db, add key 'like' and set to true
-    if ($(this).data('liked') === undefined) {
-      $(this).data('liked', true);
-      //add 1 like to db
-    }
-    // if like does exist and == true switch to false and vice versa
-    if () {
-      // set true to false
-      $(this).data('liked', false);
-      // subtract 1 like from db
-
-    } else {
-      // set false to true
-      $(this).data('liked', true);
-      //add 1 like to db
-    }
+  tweetsRoutes.post("/:id/like", function (req, res) {
+    DataHelpers.toggleLike(req.params.id, (err, tweet) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+      } else {
+        res.status(200).send(tweet);
+        // res.status(201).send();
+        // res.send(`${req.params.id} was supposed to be updated success? maybe`)
+      }
+    });
+      
   })
 
   return tweetsRoutes;

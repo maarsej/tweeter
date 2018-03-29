@@ -18,10 +18,37 @@ $(document).ready(function () {
     loadTweets(renderTweets);
     $("form").on('submit', addTweet)
     $("#compose").on('click', slideNewTweet)
+    $('#feed-container').on('submit','.interactOptionsForm', handleLike)
 
 });
 
 // Functions 
+
+function handleLike (event) {
+    event.preventDefault();
+    let id = $(this).data('id');
+    $(`form[data-id="${id}"] ~ .likeState`).toggleClass("liked")
+    $(`form[data-id="${id}"] ~ .likeState`).find('li.liveLikes').text( function(i, oldval) {
+        if ($(`form[data-id="${id}"] ~ .likeState`).hasClass("liked")){
+        return ++oldval;
+        } else {
+            return --oldval;
+        }
+    });
+    $.ajax({
+        url:`/tweets/${id}/like`,
+        method: 'POST',
+        success: function(incomingData) {
+            // $('.tweet-container').remove();
+            // loadTweets(renderTweets);
+            // make the response from server give me number of likes from db and do something with the data
+            //let id = $(this).data('id');
+            // console.log(incomingData);
+            //$(`form[data-id="${id}"] ~ .likeState`).toggleClass("liked")
+            return;
+        }
+    })
+}
 
 //Toggle the state of the window for new tweet creation
 let shown = true;
@@ -96,8 +123,9 @@ function createTweetElement(tweetInfo) {
             <div class="user">${tweetInfo.user.name}</div><div class="handle">${tweetInfo.user.handle}</div></header>
         <article class="tweet">${escape(tweetInfo.content.text)}</article>
         <footer class="tweet">${timeDiff}
-            <form method="PUT" action="/tweets/like">
-            <input class="interactOptions" type="image" src="/images/interactOptions.png"></form></footer></section>`)
+            <form data-id="${tweetInfo._id}" class="interactOptionsForm" method="POST" action="/tweets/${tweetInfo._id}/like">
+            <input class="interactOptions" type="image" src="/images/interactOptions.png"></form>
+            <small class="likeState ${tweetInfo.like ? 'liked' : ''}">Likes:<li class="liveLikes">${tweetInfo.numLikes ? tweetInfo.numLikes : '0'}</li></small></footer></section>`);
 
     $('#feed-container').prepend(output);
 };
@@ -109,7 +137,7 @@ function timeCalculator(created) {
     let nowArr = moment(now).toArray();
     let createdArr = moment(created).toArray();
     let a = moment(nowArr);
-    let b = moment(createdArr);
+    let b = moment(createdArr);   
 
     let diffY = a.diff(b, 'years')
     let diffM = a.diff(b, 'months')
