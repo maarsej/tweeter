@@ -26,24 +26,41 @@
 
 <body>
 
-  <!-- Top nav bar (fixed) -->
+  // <!-- Top nav bar (fixed) -->
   <nav id="nav-bar">
     <img class="logo" src="/images/bird.png" width="80px" height="80px">
     <span class="header">Tweeter</span>
-    <button id = "compose"> Compose </button>
+    <% if(userID == undefined){ %>
+
+      <form id="signin-form">
+        <textarea id="user" name='user' type='user' placeholder="username"></textarea>
+        <textarea id="pass" name='pass' type='pass' placeholder="password"></textarea>
+        </br>
+        <input id="login-btn" type="submit" name="action" value="Login">
+        <input id="register-btn" type="submit" name="action" value="Register">
+      </form>
+      <% } else { %>
+      <form id="logout-btn" method="POST" action="/logout">
+        <%= 'userid goes here'%>
+        <input type="submit" value="Logout">
+      </form> </br>
+      <button id ="compose"> Compose </button>
+      <% } %>
   </nav>
 
-  <!-- Page-specific (main) content here -->
+  // <!-- Page-specific (main) content here -->
   <main class="container">
+    <% if(userID !== undefined){ %>
     <section class="new-tweet">
       <h2>Compose Tweet</h2>
       <hr>
-      <form method="POST" action="/tweets">
+      <form id="compose-form" method="POST" action="/tweets">
         <textarea id = "compose-input-field" name="text" placeholder="What are you humming about?"></textarea>
         <input type="submit" value="Tweet">
         <span class="counter">140</span>
       </form>
     </section>
+    <% } %>
     <div id = "feed-container">
     </div>
   </main>

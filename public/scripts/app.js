@@ -1,60 +1,91 @@
- /*
- Created by: Jacob Maarse
- Date Created: March 26th, 2018
- Last Editted: March 28th, 2018
- Purpose: tweeter app project for lighthouse labs
- Function: -Built on premade server that handles requests
-           -CSS and HTML styling to provide an aesthetic and functional web app
-           -The aformentioned styling also provides a sense of interactivity through highlighting the hovered tweet or being able to slide the new tweet section in and out of view.
-           -Live update of tweets using ajax
-           -Tweets that persist through server restarts through the use of mongoDB
- */
+/*
+Created by: Jacob Maarse
+Date Created: March 26th, 2018
+Last Editted: March 28th, 2018
+Purpose: tweeter app project for lighthouse labs
+Function: -Built on premade server that handles requests
+          -CSS and HTML styling to provide an aesthetic and functional web app
+          -The aformentioned styling also provides a sense of interactivity through highlighting the hovered tweet or being able to slide the new tweet section in and out of view.
+          -Live update of tweets using ajax
+          -Tweets that persist through server restarts through the use of mongoDB
+*/
 
-let data= [];
+let data = [];
 
 // Allow document to load DOM before loading the persisted tweets and adding listeners
 $(document).ready(function () {
 
     loadTweets(renderTweets);
-    $("form").on('submit', addTweet)
+    $("#compose-form").on('submit', addTweet)
     $("#compose").on('click', slideNewTweet)
-    $('#feed-container').on('submit','.interactOptionsForm', handleLike)
+    $('#feed-container').on('submit', '.interactOptionsForm', handleLike)
+    $('#login-btn').on('click', attemptLogin)
+    $('#register-btn').on('click', attemptRegister)
 
 });
 
 // Functions 
-
-function handleLike (event) {
+function attemptLogin(event) {
     event.preventDefault();
-    let id = $(this).data('id');
-    $(`form[data-id="${id}"] ~ .likeState`).toggleClass("liked")
-    $(`form[data-id="${id}"] ~ .likeState`).find('li.liveLikes').text( function(i, oldval) {
-        if ($(`form[data-id="${id}"] ~ .likeState`).hasClass("liked")){
-        return ++oldval;
-        } else {
-            return --oldval;
-        }
-    });
+    // console.log('in attempt login')
+    // console.log('this.serialize: ',$(this).serialize());
     $.ajax({
-        url:`/tweets/${id}/like`,
+        url: '/login/',
         method: 'POST',
-        success: function(incomingData) {
-            // $('.tweet-container').remove();
-            // loadTweets(renderTweets);
-            // make the response from server give me number of likes from db and do something with the data
-            //let id = $(this).data('id');
-            // console.log(incomingData);
-            //$(`form[data-id="${id}"] ~ .likeState`).toggleClass("liked")
+        data: $(this).parent('#signin-form').serialize(),
+        success: function (incomingData) {
+            // alert if fail
+            // reload if good and set cookie
+            // pageReload();
+            return;
+        }
+    })
+}
+function attemptRegister(event) {
+    event.preventDefault();
+    $.ajax({
+        url: `/register/`,
+        method: 'POST',
+        data: $(this).parent('#signin-form').serialize(),
+        success: function (incomingData) {
+            // alert if fail
+
+            // reload if good and set cookie
+            //pageReload();
             return;
         }
     })
 }
 
+function pageReload() {
+    $.ajax({
+        url: `/`,
+        method: 'GET',
+    })
+}
+
+function handleLike(event) {
+    event.preventDefault();
+    let id = $(this).data('id');
+    $(`form[data-id="${id}"] ~ .likeState`).toggleClass("liked")
+    $(`form[data-id="${id}"] ~ .likeState`).find('li.liveLikes').text(function (i, oldval) {
+        if ($(`form[data-id="${id}"] ~ .likeState`).hasClass("liked")) {
+            return ++oldval;
+        } else {
+            return --oldval;
+        }
+    });
+    $.ajax({
+        url: `/tweets/${id}/like`,
+        method: 'POST'
+    })
+}
+
 //Toggle the state of the window for new tweet creation
 let shown = true;
-function slideNewTweet () {
+function slideNewTweet() {
     $(".new-tweet").slideToggle("slow")
-    if (shown === true){
+    if (shown === true) {
         shown = false;
     } else {
         shown = true;
@@ -65,21 +96,21 @@ function slideNewTweet () {
 // Request the data and given that data perform callback on it, in this case rendering the tweets
 function loadTweets(cb) {
     $.ajax({
-        url:'/tweets/',
+        url: '/tweets/',
         method: 'GET',
-        success: function(incomingData) {
+        success: function (incomingData) {
             cb(incomingData);
         }
     })
-   
+
 }
 
 // Triggered when the form is submitted, looks at the new data coming through and loads in the new tweet.
 function addTweet() {
     event.preventDefault();
-    if ($(this).find('textarea').val() === "") {
+    if ($(this).find('#compose-input-field').val() === "") {
         alert("Cannot send empty tweet");
-    } else if ($(this).find('textarea').val().length > 140) {
+    } else if ($(this).find('#compose-input-field').val().length > 140) {
         alert("Cannot tweet more than 140 characters");
     } else {
         $.ajax({
@@ -103,14 +134,14 @@ function escape(str) {
 
 // Given an array of tweets 'render' them all with the utilization of the createTweetElement function
 function renderTweets(tweetsArr) {
-    tweetsArr.forEach(function(element) {
+    tweetsArr.forEach(function (element) {
         createTweetElement(element);
     });
 };
 
 // Load the last tweet added to the database (the newest)
 function loadNewTweet(tweetsArr) {
-    createTweetElement(tweetsArr[tweetsArr.length-1]);
+    createTweetElement(tweetsArr[tweetsArr.length - 1]);
 }
 
 // Given the info for 1 tweet, produces an element and prepends it to the specified area (the feed in this case)
@@ -137,7 +168,7 @@ function timeCalculator(created) {
     let nowArr = moment(now).toArray();
     let createdArr = moment(created).toArray();
     let a = moment(nowArr);
-    let b = moment(createdArr);   
+    let b = moment(createdArr);
 
     let diffY = a.diff(b, 'years')
     let diffM = a.diff(b, 'months')

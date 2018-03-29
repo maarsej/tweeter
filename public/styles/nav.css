@@ -9,7 +9,12 @@
   padding-left: 2em;
   padding-right: 2em;
   width: 100%;
-  z-index: 200; }
+  z-index: 200;
+  line-height: 40 px; }
+
+#nav-bar textarea {
+  width: 100px;
+  height: 35px; }
 
 #nav-bar .header {
   position: relative;
@@ -23,8 +28,20 @@
 
 #nav-bar #compose {
   float: right;
-  position: relative;
-  top: 20px; }
+  padding: 5px;
+  font-size: 70%; }
+
+#nav-bar #logout-btn {
+  float: right;
+  padding: 5px;
+  font-size: 50%;
+  height: 30px; }
+
+#nav-bar #signin-form {
+  float: right;
+  padding: 5px;
+  font-size: 50%;
+  height: 30px; }
 
 @media (max-width: 455px) {
   #nav-bar {

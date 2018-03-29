@@ -10,6 +10,13 @@
     padding-right: 2em;
     width: 100%;
     z-index: 200;
+    line-height: 40 px;
+
+    textarea {
+        // position: relative;
+        width: 100px;
+        height: 35px;
+    }
 
 
     .header {
@@ -26,10 +33,21 @@
 
     #compose {
         float: right;
-        position: relative;
-        top: 20px;
+        padding: 5px;
+        font-size: 70%;
     }
-
+    #logout-btn {
+        float: right;
+        padding: 5px;
+        font-size: 50%;
+        height: 30px;
+    }
+    #signin-form {
+        float: right;
+        padding: 5px;
+        font-size: 50%;
+        height: 30px;
+    }
 }
 
 @media (max-width: 455px) {

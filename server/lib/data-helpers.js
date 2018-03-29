@@ -24,32 +24,59 @@ module.exports = function makeDataHelpers(db) {
       })
     },
     toggleLike: function (id, callback) {
-      // console.log(db.collection('tweets').find({_id: ObjectId(id)}))
       db.collection('tweets').findOne({_id: ObjectId(id)}, (err, tweet) => {
         if (err) {
           return callback(err);
         } else {
-          // console.log(tweet);
           let currentLikes = 0;
-          // console.log("num of likes on this tweet before changed: ",tweet.numLikes);
           if (tweet.numLikes) {
             currentLikes = tweet.numLikes;
-            // console.log('current likes: ', currentLikes);
           }
           if (tweet.like === undefined || tweet.like === false) {
             let newLikes = currentLikes + 1;
-            db.collection('tweets').update({ _id: ObjectId(id) }, { $set: { 'like': true } });
+            //db.collection('tweets').update({ _id: ObjectId(id) }, { $set: { 'like': true } });
+            //give user liked array the objectId
+
             db.collection('tweets').update({ _id: ObjectId(id) }, { $set: { 'numLikes': newLikes } });
           } else {
-           //  console.log('in the else in togglelike');
             let newLikes = currentLikes - 1;
-            db.collection('tweets').update({ _id: ObjectId(id) }, { $set: { 'like': false } });
+            //db.collection('tweets').update({ _id: ObjectId(id) }, { $set: { 'like': false } });
+            //take away id from user liked array
+
             db.collection('tweets').update({ _id: ObjectId(id) }, { $set: { 'numLikes': newLikes } });
           }
           return callback(null, tweet);
         }
       });
-    }
+    },
+  register: function (req, callback) {
+    db.collection('users').find({user: req.body.user}, function (err,results){
+      // build new object
+      let userToInsert = {'user':req.body.user, 'pass':req.body.pass, 'liked':[]};
+      if (err) {
+        return callback(err);
+      } else if (!results.length) {
+        db.collection('users').insertOne(userToInsert, function(err){
+          if (err) return;
+          let userId = objectToInsert._id;
+          return(null, objectID);
+        })
+      } else {
+        return (null, null)
+      }
+    })
+  },
+  checkLogin: function () {
+    db.collection('users').findOne({user: req.body.user}, function (err, user){
+      if (err) {
+        return callback(err);
+      } else if (!results) {
+          return(null, null);
+      } else {
+        let userID = results._id
+        return (null, userID);
+      }
+    })
   }
 };
 

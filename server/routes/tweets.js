@@ -47,8 +47,6 @@ module.exports = function(DataHelpers) {
         res.status(500).json({ error: err.message });
       } else {
         res.status(200).send(tweet);
-        // res.status(201).send();
-        // res.send(`${req.params.id} was supposed to be updated success? maybe`)
       }
     });
       
