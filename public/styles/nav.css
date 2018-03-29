@@ -25,3 +25,16 @@
   float: right;
   position: relative;
   top: 20px; }
+
+@media (max-width: 455px) {
+  #nav-bar {
+    padding-left: 1em;
+    padding-right: 1em; }
+  #nav-bar .header {
+    font-size: small; }
+  #nav-bar #compose {
+    font-size: small; } }
+
+@media (max-width: 300px) {
+  #nav-bar .header {
+    display: none; } }

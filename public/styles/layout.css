@@ -28,3 +28,11 @@ main {
   margin: auto;
   padding-top: 7em;
   background-color: white; }
+
+@media (max-width: 455px) {
+  main {
+    width: 300px; } }
+
+@media (max-width: 300px) {
+  main {
+    width: 200px; } }

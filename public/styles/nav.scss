@@ -12,22 +12,41 @@
     z-index: 200;
 
 
-.header {
-    position: relative;
-    margin-left: 10px;
-    line-height: 80px;
-    text-align: center;
-    float: left;   
+    .header {
+        position: relative;
+        margin-left: 10px;
+        line-height: 80px;
+        text-align: center;
+        float: left;   
+    }
+
+    .logo {
+        float: left;
+    }
+
+    #compose {
+        float: right;
+        position: relative;
+        top: 20px;
+    }
+
 }
 
-.logo {
-    float: left;
+@media (max-width: 455px) {
+    #nav-bar {
+        padding-left:1em;
+        padding-right: 1em;
+        
+        .header {
+            font-size: small;
+        }
+        #compose {
+            font-size: small;
+        }
+    }
 }
-
-#compose {
-    float: right;
-    position: relative;
-    top: 20px;
-}
-
+@media (max-width: 300px){
+    #nav-bar .header{
+        display: none;
+    }
 }

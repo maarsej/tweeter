@@ -15,6 +15,17 @@
     border-radius: 10px;
     overflow: hidden;
 }
+@media (max-width:455px){
+    .tweet-container {
+        margin-right: 0.1em;
+        margin-left: 0.1em;
+    }
+}
+@media (max-width:300px){
+    .tweet-container {
+        height: 100px;
+    }
+}
 
 header.tweet {
     position: relative;
@@ -35,27 +46,54 @@ header.tweet {
         float: right;
         font-size: 50%;
     }
-}
-footer.tweet {
-    position: relative;
-    padding: 5px;
-    bottom: -20px;
-    right: 0;
-    font-size: 80%;
+    @media (max-width:300px){
+        height: 30px;
+
+        div.user{
+            display: none;
+        }
+    }
 }
 
 article.tweet {
     position:relative;
     padding: 20px;
 }
+
+footer.tweet {
+    position: relative;
+    padding: 5px;
+    bottom: -20px;
+    line-height: 10px;
+    right: 0;
+    font-size: 80%;
+}
+
+@media (max-width:300px){
+    article.tweet{
+        font-size: small;
+        padding: 5px;
+    }
+    footer.tweet {
+        padding: 2px;
+        font-size:40%;
+    }
+}
 .tweet { 
     .interactOptions {
         position: relative;
         bottom: 15px;
         float: right;
+        
         opacity: 0;
         width: 90px; 
         height: 40px;
+    }
+    @media (max-width:300px){
+        .interactOptions {
+            width: 45px;
+            height: 20px;
+        }
     }
     .avatar-pic {
         position: relative;
@@ -65,17 +103,26 @@ article.tweet {
         bottom: 0px;
         border-radius: 5px;
     }
+    @media (max-width:300px){
+        height: 10px;
+
+        .avatar-pic{
+            height: 20px;
+            width: 20px;
+        }
+    }
     .likeState {
         color: black;
         float: right;
+        font-size: 100%;
     }
     .likeState.liked {
         color: rgb(20, 182, 33);
         font-weight: bold;
+        font-size: 100%;
     }
     .liveLikes {
-        // float: right;
-        display: inline
+        display: inline;
     }
 }
 
@@ -93,3 +140,4 @@ article.tweet {
         background-color: lightslategray;
     }
 }
+

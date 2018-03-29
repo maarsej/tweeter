@@ -122,7 +122,7 @@ function createTweetElement(tweetInfo) {
             <img class="avatar-pic" src=${tweetInfo.user.avatars.small}>  
             <div class="user">${tweetInfo.user.name}</div><div class="handle">${tweetInfo.user.handle}</div></header>
         <article class="tweet">${escape(tweetInfo.content.text)}</article>
-        <footer class="tweet">${timeDiff}
+        <footer class="tweet"><span>${timeDiff}</span>
             <form data-id="${tweetInfo._id}" class="interactOptionsForm" method="POST" action="/tweets/${tweetInfo._id}/like">
             <input class="interactOptions" type="image" src="/images/interactOptions.png"></form>
             <small class="likeState ${tweetInfo.like ? 'liked' : ''}">Likes:<li class="liveLikes">${tweetInfo.numLikes ? tweetInfo.numLikes : '0'}</li></small></footer></section>`);

@@ -8,6 +8,11 @@
   border-radius: 10px;
   z-index: 100; }
 
+@media (max-width: 455px) {
+  .new-tweet {
+    margin-right: 0.1em;
+    margin-left: 0.1em; } }
+
 .new-tweet h2 {
   border-bottom: 3px; }
 
