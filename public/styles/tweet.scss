@@ -80,11 +80,13 @@ footer.tweet {
     }
 }
 .tweet { 
+
+    word-wrap: break-word;
+    
     .interactOptions {
         position: relative;
         bottom: 15px;
         float: right;
-        
         opacity: 0;
         width: 90px; 
         height: 40px;

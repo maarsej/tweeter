@@ -68,6 +68,9 @@ footer.tweet {
     padding: 2px;
     font-size: 40%; } }
 
+.tweet {
+  word-wrap: break-word; }
+
 .tweet .interactOptions {
   position: relative;
   bottom: 15px;
