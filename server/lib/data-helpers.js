@@ -23,14 +23,16 @@ module.exports = function makeDataHelpers(db) {
         callback(null, tweets);
       })
     },
+
     toggleLike: function (tweetId, username, callback) {
       db.collection('tweets').findOne({ _id: ObjectId(tweetId) }, (err, tweet) => {
         let tweetCreatedBy = tweet.user.name;
         if (err) {
           return callback(err);
 
-        } else if (tweetCreatedBy === username) {
-          return callback(null, false);
+        } else if (!username || tweetCreatedBy === username) {
+          console.log('username: ', username)
+          return callback(null, false, false);
         } else {
           let currentLikes = 0;
           if (tweet.numLikes && tweet.numLikes > 0) {

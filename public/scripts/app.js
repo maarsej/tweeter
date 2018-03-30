@@ -1,7 +1,7 @@
 /*
 Created by: Jacob Maarse
 Date Created: March 26th, 2018
-Last Editted: March 28th, 2018
+Last Editted: March 30th, 2018
 Purpose: tweeter app project for lighthouse labs
 Function: -Built on premade server that handles requests
           -CSS and HTML styling to provide an aesthetic and functional web app
@@ -67,7 +67,6 @@ function handleLike(event) {
         url: `/tweets/${id}/like`,
         method: 'POST',
         success: function (incomingData) {
-            console.log(incomingData[0]);
             if (incomingData[0] === false) {
                 alert('You cannot like that tweet')
             } else {

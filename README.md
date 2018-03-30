@@ -9,9 +9,12 @@ All prerequisite software except Node.js is included in the package.json provide
 - Express
 - body-parser
 - chance
+- cookie-session
+- dotenv
 - moment
 - mongoDB
 - md5
+- node-sass
 
 ### Getting Started
 Upon cloning this respository simply change your directory to the project file 'tweeter' and run the server/index.js file in node. Then navigate to http://localhost:8080/ in your browser.
@@ -29,4 +32,5 @@ A brief overview of the layout of the page:
 !["Screenshot of the feed"](https://github.com/maarsej/tweeter/blob/master/docs/Screen%20Shot%202018-03-28%20at%2012.58.22%20PM.png?raw=true)
 
 
-<!-- ### Bonus Features (Stretch) -->
+### Bonus Features (Stretch)
+Added the ability to login/register, one must be logged in/registered
