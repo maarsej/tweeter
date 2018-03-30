@@ -35,7 +35,7 @@ module.exports = {
     }
 
     return {
-      name: userName,
+      // name: userName,
       handle: userHandle,
       avatars: avatars
     };

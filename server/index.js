@@ -19,6 +19,7 @@ app.use(cookieSession({
 }));
 
 var tweetDB = [];
+var username = "";
 
 MongoClient.connect(MONGODB_URI, (err, db) => {
   if (err) {
@@ -34,7 +35,7 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
     const tweetsRoutes = require("./routes/tweets")(DataHelpers);
 
     app.get("/", function(req, res) {
-      let templateVars = {userID: req.session["userID"]};
+      let templateVars = {userID: req.session["userID"], username: req.session['username'], error: '1'};
       res.render("index", templateVars);
       res.status(200)
     });
@@ -42,10 +43,11 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
     app.post("/login", function(req, res) {
       DataHelpers.checkLogin(req, (err, userID) => {
         if (err) {
-          res.status(500).json({ error: err.message });
+          res.end("invalid login");
         } else {
           req.session['userID'] = userID;
-          res.redirect("/");
+          req.session['username'] = req.body.user;
+          res.status(200).send(userID)
         }
       });
     });
@@ -53,10 +55,11 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
     app.post("/register", function(req, res) {
       DataHelpers.register(req, (err, userID) => {
         if (err) {
-          res.status(500).json({ error: err.message });
-        } else {
+          res.end("invalid registration");
+        } else {  
           req.session['userID'] = userID;
-          res.redirect("/");
+          req.session['username'] = req.body.user;
+          res.status(200).send(userID)
         }
       });
     });

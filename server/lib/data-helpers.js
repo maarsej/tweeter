@@ -53,8 +53,6 @@ module.exports = function makeDataHelpers(db) {
       db.collection('users').find({ user: req.body.user }).toArray((err, results) => {
         // build new object
         let userToInsert = { 'user': req.body.user, 'pass': req.body.pass, 'liked': [] };
-        console.log(results);
-        console.log(results.length);
         if (err) {
           return callback(err);
         } else if (!results.length) {
@@ -64,7 +62,6 @@ module.exports = function makeDataHelpers(db) {
             return callback(null, userID);
           })
         } else {
-          console.log('returned error');
           return callback(null, false)
 
         }
@@ -73,17 +70,24 @@ module.exports = function makeDataHelpers(db) {
     //check if login is valid user
     checkLogin: function (req, callback) {
       db.collection('users').findOne({ user: req.body.user }, function (err, user) {
-        console.log(user);
         if (err) {
           return callback(err);
         } else if (!user) {
           return callback(null, false);
         } else if (user.pass === req.body.pass){
           let userID = user._id
-          console.log('returned user id: ', userID);
           return callback(null, userID);
         } else {
           return callback(null, false);
+        }
+      })
+    },
+    getUserById: function (id, callback) {
+      db.collection('users').findOne({ _id : ObjectId(id) }, function (err, user) {
+        if (err) {
+          return callback(err);
+        } else {
+          return callback(null, user);
         }
       })
     }

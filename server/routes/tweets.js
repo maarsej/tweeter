@@ -18,17 +18,30 @@ module.exports = function(DataHelpers) {
   });
 
   tweetsRoutes.post("/", function(req, res) {
-    if (!req.body.text) {
+    console.log(req.body)
+    if (!req.body.tweet) {
+      // console.log(req.body.text)
       res.status(400).json({ error: 'invalid request: no data in POST body'});
       return;
     }
-
+    // console.log('past error .tweet: ', req.body.text.tweet)
+    console.log(req.body.text)
     const user = userHelper.generateRandomUser();
-    user.name = 'placeholder';
+    let userID = req.body.id;
+    user['name'] = 'placeholder';
+    console.log(userID)
+    DataHelpers.getUserById(userID, (err, foundUser) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+      } else {
+        user.name = foundUser.user;
+      }
+    })
+    
     const tweet = {
       user: user,
       content: {
-        text: req.body.text
+        text: req.body.tweet
       },
       created_at: Date.now()
     };

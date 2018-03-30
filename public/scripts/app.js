@@ -9,7 +9,7 @@ Function: -Built on premade server that handles requests
           -Live update of tweets using ajax
           -Tweets that persist through server restarts through the use of mongoDB
 */
-
+var currentUser;
 let data = [];
 
 // Allow document to load DOM before loading the persisted tweets and adding listeners
@@ -26,39 +26,40 @@ $(document).ready(function () {
 
 // Functions 
 function attemptLogin(event) {
-    // event.preventDefault();
-    // console.log($(this).parent('#signin-form').serialize())
-    // console.log('this.serialize: ',$(this).serialize());
+    event.preventDefault();
     $.ajax({
         url: '/login/',
         method: 'POST',
         data: $(this).parent('#signin-form').serialize(),
-        // success: function (incomingData) {
-        //     // alert if fail
-        //     if (incomingData === null) {
-        //         alert('invalid login information')
-        //     } else {
-        //     pageReload()
-        //     return;
-        //     }
-        // }
+        success: function (incomingData) {
+            // alert if fail
+            if (incomingData === false) {
+                alert('invalid login information')
+            } else {
+            location = location;
+            currentUser = incomingData;
+            return;
+            }
+        }
     })
 }
+
+
 function attemptRegister(event) {
-    // event.preventDefault();
-    // console.log($(this).parent('#signin-form').serialize())
+    event.preventDefault();
     $.ajax({
         url: `/register/`,
         method: 'POST',
         data: $(this).parent('#signin-form').serialize(),
-        // success: function (incomingData) {
-        //     if (incomingData === null) {
-        //         alert('invalid login information')
-        //     } else {
-        //     pageReload();
-        //     return;
-        //     }
-        // }
+        success: function (incomingData) {
+            if (incomingData === false) {
+                alert('invalid registration information')
+            } else {
+            location = location;
+            currentUser = incomingData;
+            return;
+            }
+        }
     })
 }
 
@@ -106,6 +107,7 @@ function loadTweets(cb) {
 // Triggered when the form is submitted, looks at the new data coming through and loads in the new tweet.
 function addTweet() {
     event.preventDefault();
+    console.log(currentUser)
     if ($(this).find('#compose-input-field').val() === "") {
         alert("Cannot send empty tweet");
     } else if ($(this).find('#compose-input-field').val().length > 140) {
@@ -114,7 +116,7 @@ function addTweet() {
         $.ajax({
             url: '/tweets/',
             method: 'POST',
-            data: $(this).serialize(),
+            data: {tweet: $(this).find('#compose-input-field').val(), id : currentUser},
             success: function () {
                 loadTweets(loadNewTweet);
             }
