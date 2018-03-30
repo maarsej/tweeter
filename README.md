@@ -29,8 +29,10 @@ node index.js
 
 A brief overview of the layout of the page:
 #### The page
-!["Screenshot of the feed"](https://github.com/maarsej/tweeter/blob/master/docs/Screen%20Shot%202018-03-28%20at%2012.58.22%20PM.png?raw=true)
+!["Screenshot of the feed"](https://github.com/maarsej/tweeter/blob/master/docs/Screen%20Shot%202018-03-30%20at%2011.27.00%20AM.png?raw=true)
 
 
 ### Bonus Features (Stretch)
-Added the ability to login/register, one must be logged in/registered
+Added the ability to login/register, one must be logged in/registered in order to post and like tweets. A user cannot register with another users username and the login credentials must match those in the database. The session info is retained by cookies, which track the name of the user posting tweets such that the proper name is displayed and preventing the user from liking their own tweets. Sass and Heroku were also implemented to provide a most function styling construct and a cloud based service to support the app making it available on the web.
+
+heroku link: https://evening-bastion-92186.herokuapp.com/
