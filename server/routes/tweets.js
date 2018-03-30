@@ -4,6 +4,12 @@ const userHelper    = require("../lib/util/user-helper")
 
 const express       = require('express');
 const tweetsRoutes  = express.Router();
+const cookieSession = require('cookie-session');
+
+tweetsRoutes.use(cookieSession({
+  name: 'session',
+  keys: ['secret'],
+}));
 
 module.exports = function(DataHelpers) {
 
@@ -18,25 +24,13 @@ module.exports = function(DataHelpers) {
   });
 
   tweetsRoutes.post("/", function(req, res) {
-    console.log(req.body)
     if (!req.body.tweet) {
-      // console.log(req.body.text)
       res.status(400).json({ error: 'invalid request: no data in POST body'});
       return;
     }
-    // console.log('past error .tweet: ', req.body.text.tweet)
-    console.log(req.body.text)
+
     const user = userHelper.generateRandomUser();
-    let userID = req.body.id;
-    user['name'] = 'placeholder';
-    console.log(userID)
-    DataHelpers.getUserById(userID, (err, foundUser) => {
-      if (err) {
-        res.status(500).json({ error: err.message });
-      } else {
-        user.name = foundUser.user;
-      }
-    })
+    user['name'] = req.session.username;
     
     const tweet = {
       user: user,
@@ -56,11 +50,18 @@ module.exports = function(DataHelpers) {
   });
 
   tweetsRoutes.post("/:id/like", function (req, res) {
-    DataHelpers.toggleLike(req.params.id, (err, tweet) => {
+    if (!req.session.userID ) {
+      res.send(false);
+    }
+    DataHelpers.toggleLike(req.params.id, req.session.username, (err, tweet, addLike) => {
       if (err) {
         res.status(500).json({ error: err.message });
+      } else if (!req.session.userID || tweet === false) {
+        let outgoing = [tweet, null];
+        res.send(outgoing);
       } else {
-        res.status(200).send(tweet);
+        let outgoing = [tweet, addLike];
+        res.status(200).send(outgoing);
       }
     });
       

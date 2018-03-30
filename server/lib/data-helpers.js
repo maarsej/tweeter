@@ -23,36 +23,42 @@ module.exports = function makeDataHelpers(db) {
         callback(null, tweets);
       })
     },
-    toggleLike: function (id, callback) {
-      db.collection('tweets').findOne({ _id: ObjectId(id) }, (err, tweet) => {
+    toggleLike: function (tweetId, username, callback) {
+      db.collection('tweets').findOne({ _id: ObjectId(tweetId) }, (err, tweet) => {
+        let tweetCreatedBy = tweet.user.name;
         if (err) {
           return callback(err);
+
+        } else if (tweetCreatedBy === username) {
+          return callback(null, false);
         } else {
           let currentLikes = 0;
-          if (tweet.numLikes) {
+          if (tweet.numLikes && tweet.numLikes > 0) {
             currentLikes = tweet.numLikes;
           }
-          if (tweet.like === undefined || tweet.like === false) {
-            let newLikes = currentLikes + 1;
-            //db.collection('tweets').update({ _id: ObjectId(id) }, { $set: { 'like': true } });
-            //give user liked array the objectId
-
-            db.collection('tweets').update({ _id: ObjectId(id) }, { $set: { 'numLikes': newLikes } });
-          } else {
-            let newLikes = currentLikes - 1;
-            //db.collection('tweets').update({ _id: ObjectId(id) }, { $set: { 'like': false } });
-            //take away id from user liked array
-
-            db.collection('tweets').update({ _id: ObjectId(id) }, { $set: { 'numLikes': newLikes } });
-          }
-          return callback(null, tweet);
+          let addLike = true;
+          db.collection('users').findOne({ user: username }, (err, user) => {
+            if (!user.liked.includes(tweetId)) {
+              console.log(username);
+              console.log(user);
+              let newLikes = currentLikes + 1;
+              db.collection('users').update({user: username}, {$push: {liked: tweetId}}); 
+              db.collection('tweets').update({ _id: ObjectId(tweetId) }, { $set: { 'numLikes' : newLikes } });
+            } else {
+              let newLikes = currentLikes - 1;
+              db.collection('users').update({user: username}, {$pull: {liked : tweetId}});
+              db.collection('tweets').update({ _id: ObjectId(tweetId) }, { $set: { 'numLikes': newLikes } });
+              addLike = false;
+            }
+            return callback(null, tweet, addLike);
+          })
         }
       });
     },
     register: function (req, callback) {
       db.collection('users').find({ user: req.body.user }).toArray((err, results) => {
         // build new object
-        let userToInsert = { 'user': req.body.user, 'pass': req.body.pass, 'liked': [] };
+        let userToInsert = { 'user': req.body.user, 'pass': req.body.pass, 'liked': []};
         if (err) {
           return callback(err);
         } else if (!results.length) {
@@ -74,20 +80,11 @@ module.exports = function makeDataHelpers(db) {
           return callback(err);
         } else if (!user) {
           return callback(null, false);
-        } else if (user.pass === req.body.pass){
+        } else if (user.pass === req.body.pass) {
           let userID = user._id
           return callback(null, userID);
         } else {
           return callback(null, false);
-        }
-      })
-    },
-    getUserById: function (id, callback) {
-      db.collection('users').findOne({ _id : ObjectId(id) }, function (err, user) {
-        if (err) {
-          return callback(err);
-        } else {
-          return callback(null, user);
         }
       })
     }

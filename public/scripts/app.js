@@ -9,7 +9,6 @@ Function: -Built on premade server that handles requests
           -Live update of tweets using ajax
           -Tweets that persist through server restarts through the use of mongoDB
 */
-var currentUser;
 let data = [];
 
 // Allow document to load DOM before loading the persisted tweets and adding listeners
@@ -36,9 +35,8 @@ function attemptLogin(event) {
             if (incomingData === false) {
                 alert('invalid login information')
             } else {
-            location = location;
-            currentUser = incomingData;
-            return;
+                location = location;
+                return;
             }
         }
     })
@@ -55,9 +53,8 @@ function attemptRegister(event) {
             if (incomingData === false) {
                 alert('invalid registration information')
             } else {
-            location = location;
-            currentUser = incomingData;
-            return;
+                location = location;
+                return;
             }
         }
     })
@@ -66,17 +63,28 @@ function attemptRegister(event) {
 function handleLike(event) {
     event.preventDefault();
     let id = $(this).data('id');
-    $(`form[data-id="${id}"] ~ .likeState`).toggleClass("liked")
-    $(`form[data-id="${id}"] ~ .likeState`).find('li.liveLikes').text(function (i, oldval) {
-        if ($(`form[data-id="${id}"] ~ .likeState`).hasClass("liked")) {
-            return ++oldval;
-        } else {
-            return --oldval;
-        }
-    });
     $.ajax({
         url: `/tweets/${id}/like`,
-        method: 'POST'
+        method: 'POST',
+        success: function (incomingData) {
+            console.log(incomingData[0]);
+            if (incomingData[0] === false) {
+                alert('You cannot like that tweet')
+            } else {
+                if (incomingData[1] === true) {
+                    $(`form[data-id="${id}"] ~ .likeState`).removeClass("liked")
+                    $(`form[data-id="${id}"] ~ .likeState`).addClass("liked")
+                    $(`form[data-id="${id}"] ~ .likeState`).find('li.liveLikes').text(function (i, oldval) {
+                        return ++oldval;
+                    })
+                } else {
+                    $(`form[data-id="${id}"] ~ .likeState`).removeClass("liked")
+                    $(`form[data-id="${id}"] ~ .likeState`).find('li.liveLikes').text(function (i, oldval) {
+                        return --oldval;
+                    })
+                }
+            };
+        }
     })
 }
 
@@ -107,7 +115,6 @@ function loadTweets(cb) {
 // Triggered when the form is submitted, looks at the new data coming through and loads in the new tweet.
 function addTweet() {
     event.preventDefault();
-    console.log(currentUser)
     if ($(this).find('#compose-input-field').val() === "") {
         alert("Cannot send empty tweet");
     } else if ($(this).find('#compose-input-field').val().length > 140) {
@@ -116,7 +123,7 @@ function addTweet() {
         $.ajax({
             url: '/tweets/',
             method: 'POST',
-            data: {tweet: $(this).find('#compose-input-field').val(), id : currentUser},
+            data: { tweet: $(this).find('#compose-input-field').val() },
             success: function () {
                 loadTweets(loadNewTweet);
             }
